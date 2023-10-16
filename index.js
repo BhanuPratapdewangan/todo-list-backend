@@ -32,7 +32,7 @@ app.use(cors(corsOption));
 //     });
 // };
 
-// const allowedOrigin = "https://todo-list-frontend-cw73.onrender.com";
+const allowedOrigin = "https://todo-list-frontend-cw73.onrender.com";
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', allowedOrigin);
