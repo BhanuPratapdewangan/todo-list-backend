@@ -8,14 +8,14 @@ import { MongoClient } from 'mongodb';
 
 const connString = 'mongodb+srv://bhanupratap04123:NaDdENg334CzkJAz@cluster0.kf24ru9.mongodb.net/?retryWrites=true&w=majority';
 
+const port = process.env.PORT | 1800;
 const corsOption = {
-    origin : 'https://todo-list-frontend-cw73.onrender.com/',
+    origin : 'https://todo-list-frontend-cw73.onrender.com',
 }
 const app = express();
 
 app.use(express.json());
 // app.use(express({ extended: true }));
-
 
 app.use(cors(corsOption));
 
@@ -46,7 +46,6 @@ app.use(cors(corsOption));
 //     }
 // });
 
-const port = process.env.PORT | 1800;
 
 // Fetch data from database
 // app.get('/getdata', async (req, res) => {
