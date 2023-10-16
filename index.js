@@ -6,45 +6,45 @@ import { MongoClient } from 'mongodb';
 // import './db/config.js';
 // import todoModel from './db/todo-list.js';
 
-const connString = 'mongodb+srv://bhanupratap04123:NaDdENg334CzkJAz@cluster0.kf24ru9.mongodb.net/?retryWrites=true&w=majority';
+const connString = 'mongodb+srv://bhanupratap04123:EoqY9DAfgH2Dp7Ot@cluster0.kf24ru9.mongodb.net/?retryWrites=true&w=majority';
 
 const port = process.env.PORT | 1800;
+const app = express();
+
 const corsOption = {
     origin : 'https://todo-list-frontend-cw73.onrender.com',
 }
-const app = express();
 
 app.use(express.json());
-// app.use(express({ extended: true }));
+app.use(express({ extended: true }));
 
 app.use(cors(corsOption));
 
+const connectWithRetry = () => {
+    MongoClient.connect(connString, (err, client) => {
+        if (err) {
+            console.error('Failed to connect to MongoDB:', err);
+            setTimeout(connectWithRetry, 5000); // Retry after 5 seconds
+        } else {
+            console.log('Connected to MongoDB');
+            // Continue with your MongoDB operations here
+        }
+    });
+};
 
-// const connectWithRetry = () => {
-//     MongoClient.connect(connString, (err, client) => {
-//         if (err) {
-//             console.error('Failed to connect to MongoDB:', err);
-//             setTimeout(connectWithRetry, 5000); // Retry after 5 seconds
-//         } else {
-//             console.log('Connected to MongoDB');
-//             // Continue with your MongoDB operations here
-//         }
-//     });
-// };
+const allowedOrigin = "https://todo-list-frontend-cw73.onrender.com";
 
-// const allowedOrigin = "https://todo-list-frontend-cw73.onrender.com";
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', allowedOrigin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-// app.use((req, res, next) => {
-//     res.header('Access-Control-Allow-Origin', allowedOrigin);
-//     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-//     if (req.method === 'OPTIONS') {
-//         res.sendStatus(204); // Pre-flight request. Respond successfully without further processing.
-//     } else {
-//         next(); // Continue processing the request.
-//     }
-// });
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(204); // Pre-flight request. Respond successfully without further processing.
+    } else {
+        next(); // Continue processing the request.
+    }
+});
 
 
 // Fetch data from database
