@@ -45,9 +45,9 @@ const port = process.env.PORT | 1800;
 //     }
 // });
 
-app.get('/getdata', (req, res) => {
+app.get('/getdata', async(req, res) => {
 
-    MongoClient.connect(connString).then(clietObject => {
+    await MongoClient.connect(connString).then(clietObject => {
 
         const database = clietObject.db('todo-list');
         database.collection('list-data').find({}).toArray().then(document => {
