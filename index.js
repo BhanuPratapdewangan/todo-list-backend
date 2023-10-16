@@ -11,8 +11,21 @@ const connString = 'mongodb+srv://bhanupratap04123:NaDdENg334CzkJAz@cluster0.kf2
 const app = express();
 
 app.use(express.json());
-app.use(express({extended:true}));
+app.use(express({ extended: true }));
 app.use(cors());
+
+
+const connectWithRetry = () => {
+    MongoClient.connect(connString, (err, client) => {
+        if (err) {
+            console.error('Failed to connect to MongoDB:', err);
+            setTimeout(connectWithRetry, 5000); // Retry after 5 seconds
+        } else {
+            console.log('Connected to MongoDB');
+            // Continue with your MongoDB operations here
+        }
+    });
+};
 
 // const allowedOrigin = "https://todo-list-frontend-cw73.onrender.com";
 
@@ -45,7 +58,7 @@ const port = process.env.PORT | 1800;
 //     }
 // });
 
-app.get('/getdata', async(req, res) => {
+app.get('/getdata', async (req, res) => {
 
     await MongoClient.connect(connString).then(clietObject => {
 
