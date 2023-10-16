@@ -6,7 +6,7 @@ import { MongoClient } from 'mongodb';
 import './db/config.js';
 // import todoModel from './db/todo-list.js';
 
-const connString = 'mongodb://localhost:27017';
+const connString = 'mongodb+srv://bhanupratap04123:NaDdENg334CzkJAz@cluster0.kf24ru9.mongodb.net/?retryWrites=true&w=majority';
 
 const app = express();
 
