@@ -2,6 +2,7 @@
 import express from 'express';
 import cors from 'cors';
 import Jwt from 'jsonwebtoken';
+import retry from 'retry';
 
 // import js files
 import { } from './db/config.js';
@@ -32,63 +33,101 @@ app.use((req, res, next) => {
 });
 
 
-app.get('/users', verifyToken, async (req, res) => {
+// app.get('/users', verifyToken, async (req, res) => {
 
-    let data = await userModel.find();
-    if (data) {
-        res.send(data);
-    } else {
-        res.send("Data not found");
-    }
-})
+//     let data = await userModel.find();
+//     if (data) {
+//         res.send(data);
+//     } else {
+//         res.send("Data not found");
+//     }
+// })
 
-//Get todo-list 
-app.get('/getdata', verifyToken, async (req, res) => {
+// //Get todo-list 
+// app.get('/getdata', verifyToken, async (req, res) => {
 
-    let data = await todoModel.find();
-    if (data) {
-        res.send(data);
-    } else {
-        res.send("Data not found");
-    }
-})
+//     let data = await todoModel.find();
+//     if (data) {
+//         res.send(data);
+//     } else {
+//         res.send("Data not found");
+//     }
+// })
 
-//SignUp Route 
+// //SignUp Route 
+// app.post('/signup', async (req, res) => {
+//     try {
+//         let data = new userModel(req.body);
+//         data = await data.save();
+//         data = data.toObject();
+//         delete data.password;
+//         res.send(data);
+//         res.end();
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Internal server error' });
+//     }
+// });
+
+// //SignIn Route
+// app.post('/signin', async (req, res) => {
+
+//     if (req.body.email && req.body.password) {
+
+//         let data = await userModel.findOne(req.body).select('-password');
+
+//         if (data) {
+//             Jwt.sign({ data }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+//                 if (err) {
+//                     res.send({ result: "Data went wrong" });
+//                 } else
+//                     res.send({ data, auth: token });
+//             })
+//         } else {
+//             res.send("Result : Data not found");
+//         }
+//     } else {
+//         res.send("Data Not Found");
+//     }
+// });
+
+
+// ...
+
 app.post('/signup', async (req, res) => {
     try {
-        let data = new userModel(req.body);
-        data = await data.save();
-        data = data.toObject();
-        delete data.password;
-        res.send(data);
-        res.end();
+        // Define the operation with retry logic
+        const operation = retry.operation({
+            retries: 3,  // Number of retries
+            factor: 2,  // Exponential backoff factor
+            minTimeout: 1000,  // Minimum retry delay in milliseconds
+            maxTimeout: 5000,  // Maximum retry delay in milliseconds
+        });
+
+        operation.attempt(async (currentAttempt) => {
+            try {
+                let data = new userModel(req.body);
+                data = await data.save();
+                data = data.toObject();
+                delete data.password;
+                res.send(data);
+                res.end();
+            } catch (error) {
+                if (operation.retry(error)) {
+                    // If there's an error and we should retry, log the attempt and retry
+                    console.log(`Attempt ${currentAttempt}: Insert failed, retrying...`);
+                    return;
+                }
+                console.error(error);
+                res.status(500).json({ error: 'Internal server error' });
+            }
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
 
-//SignIn Route
-app.post('/signin', async (req, res) => {
-
-    if (req.body.email && req.body.password) {
-
-        let data = await userModel.findOne(req.body).select('-password');
-
-        if (data) {
-            Jwt.sign({ data }, jwtKey, { expiresIn: "2h" }, (err, token) => {
-                if (err) {
-                    res.send({ result: "Data went wrong" });
-                } else
-                    res.send({ data, auth: token });
-            })
-        } else {
-            res.send("Result : Data not found");
-        }
-    } else {
-        res.send("Data Not Found");
-    }
-});
 
 function verifyToken(req, res, next) {
 
