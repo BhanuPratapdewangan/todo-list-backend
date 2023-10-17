@@ -1,7 +1,7 @@
 
 import express from 'express'
 import cors from 'cors';
-
+import { MongoClient } from 'mongodb';
 
 //import external files/ connection files
 import { } from './db/config.js';
@@ -22,14 +22,28 @@ app.use(cors());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
-app.get('/getdata', async(req, res) => {
 
-    let data = await todoModel.find();
-    if(data){
-        res.send(data); 
-    } else {
-        res.send({result : "Data not found"});
-    }
+// app.get('/getdata', async(req, res) => {
+
+//     let data = await todoModel.find();
+//     if(data){
+//         res.send(data); 
+//     } else {
+//         res.send({result : "Data not found"});
+//     }
+// })
+
+
+app.get('/getdata', async (req, res) => {
+
+    await MongoClient.connect(connString).then(clietObject => {
+
+        const database = clietObject.db('todo-list');
+        database.collection('list-data').find({}).toArray().then(document => {
+            res.send(document);
+            res.end();
+        })
+    })
 })
 
 app.listen(port ,() => {
