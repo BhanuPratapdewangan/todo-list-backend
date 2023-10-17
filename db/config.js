@@ -14,9 +14,9 @@
 
 import mongoose from "mongoose";
 
-// mongoose.connect("mongodb+srv://bhanupratap04123:yLwfk5Yn2KcluSgP@cluster0.kf24ru9.mongodb.net/todo-list?retryWrites=true&w=majority");
+mongoose.connect("mongodb+srv://bhanupratap04123:yLwfk5Yn2KcluSgP@cluster0.kf24ru9.mongodb.net/todo-list?retryWrites=true&w=majority");
 
-mongoose.connect("mongodb://localhost:27017");
+// mongoose.connect("mongodb://localhost:27017/todo-list");
 
 // MONGODB_URL = "mongodb+srv://bhanupratap04123:rieocQN2ePiBBJ5u@cluster0.1j9ymic.mongodb.net/?retryWrites=true&w=majority";
 
