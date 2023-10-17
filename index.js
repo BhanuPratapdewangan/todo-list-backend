@@ -5,7 +5,7 @@ import Jwt from 'jsonwebtoken';
 
 // import js files
 import { } from './db/config.js';
-import userModel from './db/user.js';
+import userModel from './db/users.js';
 import todoModel from './db/todo-list.js';
 
 const app = express();
