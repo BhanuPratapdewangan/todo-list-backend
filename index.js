@@ -74,7 +74,7 @@ app.use(cors(corsOption));
 //     })
 // })
 
-app.get('/getdata', verifyToken, async (req, res) => {
+app.get('/getdata', async (req, res) => {
 
     let data = await todoModel.find();
     if (data) {
