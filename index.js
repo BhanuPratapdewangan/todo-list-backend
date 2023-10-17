@@ -11,14 +11,14 @@ import todoModel from './db/todo-list.js';
 const port = process.env.PORT | 1800;
 const app = express();
 
-const corsOption = {
-    origin: 'https://todo-list-frontend-cw73.onrender.com',
-}
+// const corsOption = {
+//     origin: 'https://todo-list-frontend-cw73.onrender.com',
+// }
 
 app.use(express.json());
 app.use(express({ extended: true }));
 
-app.use(cors(corsOption));
+app.use(cors());
 
 // const connectWithRetry = () => {
 //     MongoClient.connect(connString, (err, client) => {
