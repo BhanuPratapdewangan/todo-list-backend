@@ -4,7 +4,7 @@ import cors from 'cors';
 import { MongoClient } from 'mongodb';
 
 //import external files/ connection files
-// import { } from './db/config.js';
+import { } from './db/config.js';
 // import todoModel from './db/todo-list.js';
 
 const port = process.env.PORT | 1800;
