@@ -10,6 +10,7 @@ import { } from './db/config.js';
 const port = process.env.PORT | 1800;
 
 const connString = 'mongodb+srv://bhanupratap04123:yLwfk5Yn2KcluSgP@cluster0.kf24ru9.mongodb.net/todo-list?retryWrites=true&w=majority';
+// const connString = "mongodb://localhost:27017";
 const app = express();
 
 // const corsOption = {
@@ -18,13 +19,14 @@ const app = express();
 
 
 app.use(express());
-app.use(cors(
-    {
-        origin: 'https://todo-list-frontend-cw73.onrender.com', // Specify the allowed origin
-        methods: 'GET,POST,PUT,DELETE', // Specify the allowed HTTP methods
-        allowedHeaders: 'Content-Type,Authorization',
-    }
-));
+app.use(cors());
+// app.use(cors(
+//     {
+//         origin: 'https://todo-list-frontend-cw73.onrender.com', // Specify the allowed origin
+//         methods: 'GET,POST,PUT,DELETE', // Specify the allowed HTTP methods
+//         allowedHeaders: 'Content-Type,Authorization',
+//     }
+// ));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
