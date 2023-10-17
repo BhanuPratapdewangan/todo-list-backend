@@ -14,19 +14,19 @@ const connString = 'mongodb+srv://bhanupratap04123:yLwfk5Yn2KcluSgP@cluster0.kf2
 const app = express();
 
 // const corsOption = {
-//     origin: 'https://todo-list-frontend-cw73.onrender.com',
+//     origin: 'https://todo-list-frontend-cw73.onrender.com/',
 // }
 
 
 app.use(express());
-app.use(cors());
-// app.use(cors(
-//     {
-//         origin: 'https://todo-list-frontend-cw73.onrender.com', // Specify the allowed origin
-//         methods: 'GET,POST,PUT,DELETE', // Specify the allowed HTTP methods
-//         allowedHeaders: 'Content-Type,Authorization',
-//     }
-// ));
+// app.use(cors());
+app.use(cors(
+    {
+        origin: 'https://todo-list-frontend-cw73.onrender.com/', // Specify the allowed origin
+        methods: 'GET,POST,PUT,DELETE', // Specify the allowed HTTP methods
+        allowedHeaders: 'Content-Type,Authorization',
+    }
+));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
