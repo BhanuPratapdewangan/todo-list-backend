@@ -17,28 +17,26 @@ const jwtKey = "todo-list";
 app.use(express.json());
 app.use(cors());
 
-app.get('/users', verifyToken,  async(req, res) => {
+app.get('/users', verifyToken, async (req, res) => {
 
     let data = await userModel.find();
-    if(data)
-    {
+    if (data) {
         res.send(data);
-    } else{
+    } else {
         res.send("Data not found");
     }
 })
 
 //Get todo-list 
-app.get('/getdata', verifyToken,  async(req, res) => {
+app.get('/getdata', verifyToken, async (req, res) => {
 
     let data = await todoModel.find();
-    if(data)
-    {
+    if (data) {
         res.send(data);
-    } else{
+    } else {
         res.send("Data not found");
     }
-}) 
+})
 
 //SignUp Route 
 app.post('/signup', async (req, res) => {
