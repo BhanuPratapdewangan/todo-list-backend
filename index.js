@@ -11,12 +11,16 @@ const port = process.env.PORT | 1800;
 
 const app = express();
 
-const corsOption = {
-    origin: 'https://todo-list-frontend-cw73.onrender.com',
-}
+// const corsOption = {
+//     origin: 'https://todo-list-frontend-cw73.onrender.com',
+// }
+
 
 app.use(express());
-app.use(cors(corsOption));
+app.use(cors());
+
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
 
 app.get('/getdata', async(req, res) => {
 
