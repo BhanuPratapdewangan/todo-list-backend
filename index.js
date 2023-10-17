@@ -18,10 +18,17 @@ const app = express();
 
 
 app.use(express());
-app.use(cors());
+app.use(cors(
+    {
+        origin: 'https://todo-list-frontend-cw73.onrender.com', // Specify the allowed origin
+        methods: 'GET,POST,PUT,DELETE', // Specify the allowed HTTP methods
+        allowedHeaders: 'Content-Type,Authorization',
+    }
+));
 
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 
 
 // app.get('/getdata', async(req, res) => {
@@ -47,7 +54,7 @@ app.get('/getdata', async (req, res) => {
     })
 })
 
-app.listen(port ,() => {
+app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 })
 
